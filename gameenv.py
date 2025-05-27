@@ -91,14 +91,14 @@ class Player:
         move = validmoves[move_index]
 
         if self.last_state is not None:
-            self.update_q_value(self.last_state,self.last_action,0,state,False)
+            self.update_q_value(env, self.last_state,self.last_action,0,state,False)
         
         self.last_state = state
         self.last_action = move_index
         return move
     
 
-    def update_q_value(self, state, action_index, reward, next_state, done):
+    def update_q_value(self, env, state, action_index, reward, next_state, done):
         current_q = self.q_table[state][action_index]
         if done:
             target = reward
@@ -111,9 +111,9 @@ class Player:
         self.q_table[state][action_index] += self.alpha * (target - current_q)
     
 
-    def final_update(self, reward):
+    def final_update(self, reward, env):
             if self.last_state is not None:
-                self.update_q_value(self.last_state, self.last_action, reward, None, True)
+                self.update_q_value(env, self.last_state, self.last_action, reward, None, True)
                 self.last_state = None
                 self.last_action = None
 
@@ -125,14 +125,14 @@ def training(env, p1,p2):
         env.playgame()
         winner = env.check_win()
         if winner == 0:
-            p1.final_update(1)
-            p2.final_update(-1)
+            p1.final_update(1, env)
+            p2.final_update(-1, env)
         elif winner == 1:
-            p1.final_update(-1)
-            p2.final_update(1)
+            p1.final_update(-1,env)
+            p2.final_update(1, env)
         else:
-            p1.final_update(0.5)
-            p2.final_update(0.5)
+            p1.final_update(0.5, env)
+            p2.final_update(0.5, env)
 
 
         env.reset()
@@ -146,16 +146,16 @@ def check(env, p1,p2):
         winner = env.check_win()
         if winner == 0:
             win += 1
-            p1.final_update(1)
-            p2.final_update(-1)
+            p1.final_update(1, env)
+            p2.final_update(-1, env)
         elif winner == 1:
             loss+=1
-            p1.final_update(-1)
-            p2.final_update(1)
+            p1.final_update(-1, env)
+            p2.final_update(1, env)
         else:
             draw+=1
-            p1.final_update(0.5)
-            p2.final_update(0.5)
+            p1.final_update(0.5, env)
+            p2.final_update(0.5, env)
         
         env.reset()
     return win, loss, draw
@@ -170,14 +170,7 @@ def load_dict(filename):
     with open(filename, 'rb') as f:
         return pickle.load(f)
 
-
-
-
-
-
-
-"""
-p1 = Player("X", "ai")
+"""p1 = Player("X", "ai")
 p2 = Player("O", "ai")
 env = TicTacToe([p1,p2])
 
@@ -186,7 +179,6 @@ table = load_dict('xtable.pkl')
 
 p1 = Player("X", "ai", q_table=table, epsilon=0)
 p2 = Player("O", "ai")
-env2 = TicTacToe([p12,p21])
+env2 = TicTacToe([p1,p2])
 
-print(check(env2,p1,p2))
-"""
+print(check(env2,p1,p2))"""
