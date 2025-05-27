@@ -1,1 +1,53 @@
-123
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q Learning Tic Tac Toe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Q Learning Tic Tac Toe</h1>
+
+        <!-- q learning bs -->
+        <form action="/" method="POST">
+            <div class="input-container">
+                <input type="text" class="input-box" name="epsilon" placeholder="greed (0.5)" value="{{ epsilon }}">
+                <input type="text" class="input-box" name="alpha" placeholder="learning rate (0.1)" value="{{ alpha }}">
+                <input type="text" class="input-box" name="gamma" placeholder="discount factor (0.9)" value="{{ gamma }}">
+                <input type="text" class="input-box" name="episodes" placeholder="Training Episodes (100000)" value="{{ episodes }}">
+            </div>
+            <button type="submit" name="submit_type" value="params">Submit Params</button>
+        </form>
+
+        {% if epsilon and alpha and gamma and episodes %}
+            <div>
+                <h2>Submitted Parameters:</h2>
+                <p><strong>epsilon:</strong> {{ epsilon }}</p>
+                <p><strong>alpha:</strong> {{ alpha }}</p>
+                <p><strong>gamma:</strong> {{ gamma }}</p>
+                <p><strong>episodes:</strong> {{ episodes }}</p>
+            </div>
+        {% endif %}
+
+        <!--tictactoe wip -->
+        <form method="POST">
+            <div class="grid">
+                {% for row in range(3) %}
+                    {% for col in range(3) %}
+                        <button type="submit" name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
+                            {{ board[row][col] }}
+                        </button>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <input type="hidden" name="submit_type" value="move">
+        </form>
+
+        {% if move %}
+            <p>You clicked on cell: {{ move }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
