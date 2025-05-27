@@ -34,3 +34,26 @@ h1 {
 .input-box:focus {
     outline: 2px solid #007bff;
 }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 80px); /* 3 columns */
+    grid-template-rows: repeat(3, 80px);    /* 3 rows */
+    gap: 5px;
+    margin: 20px auto;
+}
+
+.grid-cell {
+    width: 80px;
+    height: 80px;
+    font-size: 2em;
+    cursor: pointer;
+    border: 2px solid #333;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-cell:hover {
+    background-color: #e0e0e0;
+}

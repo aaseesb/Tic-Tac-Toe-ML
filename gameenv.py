@@ -18,17 +18,17 @@ class TicTacToe:
         self.board = [" " for x in range(9)]
         self.done = False
         self.winner = ''
-    
-    def playgame(self):
+
+    def aigame(self):
         while True:
             #self.print_board()
-            move = self.players[0].step(self)
+            move = self.players[0].step_ai(self)
             self.board[move] = "X"
             self.check_win()
             if self.done:
                 break
 
-            move = self.players[1].step(self)
+            move = self.players[1].step_ai(self)
             self.board[move] = "O"
             self.check_win()
             if self.done:
@@ -73,9 +73,9 @@ class Player:
         self.gamma = gamma
         self.last_state = None
         self.last_action = None
+        
 
-
-    def step(self, env):
+    def step_ai(self, env):
         validmoves = env.available_actions(env.board)
         state = tuple(env.board)
 
@@ -122,7 +122,7 @@ class Player:
 
 def training(env, p1,p2):
     for i in range(200000):
-        env.playgame()
+        env.aigame()
         winner = env.check_win()
         if winner == 0:
             p1.final_update(1, env)
@@ -137,12 +137,12 @@ def training(env, p1,p2):
 
         env.reset()
     
-    save_dict(p1.q_table, 'xtable.pkl')
+    save_dict(p2.q_table, 'otable.pkl')
 
 def check(env, p1,p2):
     win, loss, draw = 0,0,0
     for i in range(1000):
-        env.playgame()
+        env.aigame()
         winner = env.check_win()
         if winner == 0:
             win += 1
@@ -170,11 +170,15 @@ def load_dict(filename):
     with open(filename, 'rb') as f:
         return pickle.load(f)
 
-"""p1 = Player("X", "ai")
+"""
+p1 = Player("X", "ai")
 p2 = Player("O", "ai")
 env = TicTacToe([p1,p2])
 
 training(env,p1,p2)
+"""
+
+"""
 table = load_dict('xtable.pkl')
 
 p1 = Player("X", "ai", q_table=table, epsilon=0)
@@ -182,3 +186,4 @@ p2 = Player("O", "ai")
 env2 = TicTacToe([p1,p2])
 
 print(check(env2,p1,p2))"""
+
