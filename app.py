@@ -8,6 +8,8 @@ human = "X"
 ai = "O"
 p1 = None
 p2 = None
+o_ai = None
+x_ai = None
 epsilon = alpha = gamma = episodes = ''
 
 app = Flask(__name__)
@@ -15,7 +17,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    global trained, env, human, ai, p1, p2, epsilon, alpha, gamma, episodes
+    global trained, env, human, ai, p1, p2, epsilon, alpha, gamma, episodes, o_ai, x_ai
 
     #env.print_board()
     if trained == True:
@@ -42,8 +44,10 @@ def home():
             # AI training
             p1 = Player("X", "ai", epsilon, alpha, gamma)
             p2 = Player("O", "ai", epsilon, alpha, gamma)
+
             env = TicTacToe([p1, p2])
             training(env, p1,p2, episodes)
+            
             save_dict(p1.q_table, "xtable.pkl")
             save_dict(p1.q_table, "otable.pkl")
 
@@ -58,7 +62,7 @@ def home():
             env.reset();
             human, ai = ("O", "X") if human == "X" else ("X", "O")
             if human == "O":
-                env.board[p2.step_ai(env)] = "X"
+                env.board[o_ai.step_ai(env)] = "X"
             
 
         elif submit_type == 'move' and trained:
@@ -76,7 +80,10 @@ def home():
                         env.board[idx] = human
                         winner = env.check_win()
                         if winner == None:
-                            env.board[p2.step_ai(env)] = ai
+                            if ai == "X":
+                                env.board[x_ai.step_ai(env)] = ai
+                            else: 
+                                env.board[o_ai.step_ai(env)] = ai
 
                         # if human == "X":
                         #     env.board[idx] = 'X'

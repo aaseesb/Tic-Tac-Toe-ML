@@ -141,7 +141,7 @@ def training(env, p1,p2, episodes):
 
 def check(env, p1,p2):
     win, loss, draw = 0,0,0
-    for i in range(1000):
+    for i in range(100000):
         env.aigame()
         winner = env.check_win()
         if winner == 0:
@@ -175,15 +175,17 @@ p1 = Player("X", "ai")
 p2 = Player("O", "ai")
 env = TicTacToe([p1,p2])
 
-training(env,p1,p2)
-"""
+training(env,p1,p2, 100000)
 
-"""
-table = load_dict('xtable.pkl')
+save_dict(p1.q_table,'xtable.pkl')
+save_dict(p2.q_table,'otable.pkl')
 
-p1 = Player("X", "ai", q_table=table, epsilon=0)
-p2 = Player("O", "ai")
+xtable = load_dict('xtable.pkl')
+otable = load_dict('otable.pkl')
+p1 = Player("X", "ai", q_table=xtable, epsilon=0)
+p2 = Player("O", "ai", q_table=otable, epsilon=0)
 env2 = TicTacToe([p1,p2])
 
-print(check(env2,p1,p2))"""
+print(check(env2,p1,p2))
 
+"""
