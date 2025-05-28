@@ -1,6 +1,6 @@
 /* base styles and text */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto Mono', monospace;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,6 +39,7 @@ h1 {
 
 /* inputs for parameters */
 #ai-inputs {
+    font-family: 'Roboto Mono', monospace;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,6 +49,7 @@ h1 {
 }
 
 .input-box {
+    font-family: 'Roboto Mono', monospace;
     padding: 10px;
     font-size: 1.2em;
     width: 90%;
@@ -63,6 +65,7 @@ h1 {
 
 /* buttons (non-grid) */
 .button {
+    font-family: 'Roboto Mono', monospace;
     padding: 10px;
     font-size: 1.2em;
     width: 90%;
