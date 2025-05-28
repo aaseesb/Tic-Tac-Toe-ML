@@ -122,8 +122,8 @@ class Player:
 
 # TRAINING
 
-def training(env, p1,p2):
-    for i in range(200000):
+def training(env, p1,p2, episodes):
+    for i in range(episodes):
         env.aigame()
         winner = env.check_win()
         if winner == 0:
@@ -138,8 +138,6 @@ def training(env, p1,p2):
 
 
         env.reset()
-    
-    save_dict(p2.q_table, 'otable.pkl')
 
 def check(env, p1,p2):
     win, loss, draw = 0,0,0

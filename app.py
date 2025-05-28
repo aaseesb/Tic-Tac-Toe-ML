@@ -1,16 +1,23 @@
 from flask import Flask, request, render_template
-from gameenv import TicTacToe, Player, load_dict
+from gameenv import TicTacToe, Player, load_dict, training, save_dict
+
+trained = False
+env = None
+human = "X"
+p1 = None
+p2 = None
 
 app = Flask(__name__)
 
-otable = load_dict('otable.pkl')
-p1 = Player("X", "human")
-p2 = Player("O", "ai", q_table=otable, epsilon=0)
-env = TicTacToe([p1, p2])
-
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    env.print_board()
+    global trained, env, human, p1, p2
+
+    #env.print_board()
+    if trained == True:
+        pass
+    else:
+        trained = False
     move = None
     epsilon = alpha = gamma = episodes = ''
     winner = -1;
@@ -23,15 +30,39 @@ def home():
         submit_type = request.form.get('submit_type')
 
         if submit_type == 'params':
-            epsilon = request.form.get('epsilon')
-            alpha = request.form.get('alpha')
-            gamma = request.form.get('gamma')
-            episodes = request.form.get('episodes')
+            
+            epsilon = float(request.form.get('epsilon'))
+            alpha = float(request.form.get('alpha'))
+            gamma = float(request.form.get('gamma'))
+            episodes = int(request.form.get('episodes'))
 
-        elif submit_type == 'reset':
+            # AI training
+            p1 = Player("X", "ai", epsilon, alpha, gamma)
+            p2 = Player("O", "ai",epsilon, alpha, gamma)
+            env = TicTacToe([p1, p2])
+            training(env, p1,p2, episodes)
+            save_dict(p1.q_table, "xtable.pkl")
+            save_dict(p1.q_table, "otable.pkl")
+
+            x_ai = Player("X", "ai",epsilon=0, q_table=load_dict('xtable.pkl') )
+            o_ai = Player("O", "ai", epsilon=0, q_table=load_dict('otable.pkl'))
+
+
+
+            trained = True
+            print('AI Trained')
+
+            
+
+        elif submit_type == 'reset' and trained:
             env.reset();
+            human = "O" if human == "X" else "X"
+            if human == "O":
+                env.board[p2.step_ai(env)] = "X"
+            
+            
 
-        elif submit_type == 'move':
+        elif submit_type == 'move' and trained:
             # retrieve location of move
             move = request.form.get('cell')
             print("Form data:", request.form)
@@ -41,10 +72,16 @@ def home():
 
                 #theres probably better way than checking available actions twice but fuck it
                 if env.available_actions(env.board) != []:
+
                     if env.board[idx] == ' ':
-                        env.board[idx] = 'X'
-                        if env.available_actions(env.board) != []:
-                            env.board[p2.step_ai(env)] = "O"
+                        if human == "X":
+                            env.board[idx] = 'X'
+                            if env.available_actions(env.board) != []:
+                                env.board[p2.step_ai(env)] = "O"
+                        if human == "O":
+                            env.board[idx] = "O"
+                            if env.available_actions(env.board) != []:
+                                env.board[p2.step_ai(env)] = "X"
                         
                         #the html board is 3x3 while the board in the qtables is 1x9 so just convert
                         board_2d = [env.board[i:i + 3] for i in range(0, 9, 3)]
@@ -63,12 +100,13 @@ def home():
                             env.board = [' ' for i in range(9)]
     
     
-    #omg this is such a shit solution to this but im too tired to find anything else to fix when you select a preselcted block
-    # if by select a preselected block, you mean selecting a block that has already been chosen, i fixed it. it doesn't allow you to press on it now
     try:
         board=board_2d
-    except UnboundLocalError:
-        board_2d = [env.board[i:i + 3] for i in range(0, 9, 3)]
+    except(UnboundLocalError, AttributeError):
+        try:
+            board_2d = [env.board[i:i + 3] for i in range(0, 9, 3)]
+        except(UnboundLocalError, AttributeError):
+            board_2d = [' ' for i in range(9)]
 
 
     return render_template('home.html',
