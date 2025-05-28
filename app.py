@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template
 from gameenv import TicTacToe, Player, load_dict, training, save_dict, get_qvalues
-import os
 
 trained = False
 env = None
