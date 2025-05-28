@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Q Learning Tic Tac Toe</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .grid {
+            background-image: url("{{ url_for('static', filename='images/waffle.png') }}");
+            /* background-color: pink; */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -33,21 +39,47 @@
 
         <!--tictactoe wip -->
         <form method="POST">
-            <div class="grid">
+            <div class="grid" >
                 {% for row in range(3) %}
                     {% for col in range(3) %}
-                        <button type="submit" name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
-                            {{ board[row][col] }}
-                        </button>
+                        {% if board[row][col] == ' ' %}
+                            <button type="submit" name="cell" value="{{ row }}-{{ col }}" class="grid-cell"></button>
+                        <!-- disable cells and display images if they are not empty -->
+                        {% else %}
+                            <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
+                                <img id="{{ row }}-{{ col }}" style="display:none;" />
+                                {% if board[row][col] == 'X' %}
+                                    <img src="{{ url_for('static', filename='images/blueberry.png') }}" />
+                                {% else %}
+                                    O
+                                    <!-- <img src="{{ url_for('static', filename='images/o.png') }}" /> -->
+                                {% endif %}
+                            </button>
+                        {% endif %}
                     {% endfor %}
                 {% endfor %}
             </div>
             <input type="hidden" name="submit_type" value="move">
         </form>
 
+        <!-- display move -->
         {% if move %}
             <p>You clicked on cell: {{ move }}</p>
         {% endif %}
+
+        <!-- check for winner and output accordingly -->
+        {% if winner == 0 %}
+            <p>User wins!</p>
+        {% elif winner == 1 %}
+            <p>Computer wins!</p>
+        {% elif winner == 2 %}
+            <p>Draw!</p>
+        {% endif %}
+
+        <!-- reset/play again button -->
+        <form method="POST">
+            <button type="submit" name="submit_type" value="reset">Restart</button>
+        </form>
     </div>
 </body>
 </html>
