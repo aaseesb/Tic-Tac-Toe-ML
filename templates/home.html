@@ -14,8 +14,8 @@
         <h1>Q-Learning Tic Tac Toe</h1>
 
         <div class="container">
-            <!-- q learning bs -->
-            <div class="column">
+            <!-- q learning training parameter inputs -->
+            <div class="column" style="margin-top:40px;">
                 <form action="/" method="POST" id="ai-inputs">
                     <input type="text" class="input-box" name="epsilon" placeholder="Greed (0.5)" value="{{ epsilon }}">
                     <input type="text" class="input-box" name="alpha" placeholder="Learning rate (0.1)"
@@ -27,19 +27,11 @@
                     <button type="submit" name="submit_type" value="params" class="button">Submit Parameters</button>
                 </form>
 
-                {% if epsilon and alpha and gamma and episodes %}
-                    <div>
-                        <h2>Submitted Parameters:</h2>
-                        <p><strong>epsilon:</strong> {{ epsilon }}</p>
-                        <p><strong>alpha:</strong> {{ alpha }}</p>
-                        <p><strong>gamma:</strong> {{ gamma }}</p>
-                        <p><strong>episodes:</strong> {{ episodes }}</p>
-                    </div>
-                {% endif %}
+                
             </div>
 
-            <!--tictactoe wip -->
             <div class="column" style="width:350px;">
+                <!-- tictactoe game -->
                 <form method="POST">
                     <div class="grid">
                         {% for row in range(3) %}
@@ -78,26 +70,41 @@
                     <input type="hidden" name="submit_type" value="move">
                 </form>
 
-                <!-- display move -->
-                {% if move %}
-                    <p>You clicked on cell: {{ move }}</p>
-                {% endif %}
-            </div>
-
-            <div class="column">
                 <!-- check for winner and output accordingly -->
                 {% if winner == 0 %}
-                    <p>X wins!</p>
+                    <h2>X wins!</h2>
                 {% elif winner == 1 %}
-                    <p>O wins!</p>
+                    <h2>O wins!</h2>
                 {% elif winner == 2 %}
-                    <p>Draw!</p>
+                    <h2>Draw!</h2>
+                {% else %}
+                    <h2 style="color:#ffeadc;">-</h2>
                 {% endif %}
-
+                
                 <!-- reset/play again button -->
                 <form method="POST">
                     <button type="submit" name="submit_type" value="reset" class="button">Reset </button>
                 </form>
+
+                <!-- display move -->
+                {% if move %}
+                    <p>You clicked on cell: {{ move }}</p>
+                {% else %}
+                    <p style="color:#ffeadc;">-</p>
+                {% endif %}
+            </div>
+
+            <!-- parameters being used -->
+            <div class="column" style="margin-top:30px;">
+                {% if epsilon and alpha and gamma and episodes %}
+                    <div>
+                        <h2>Submitted Parameters:</h2>
+                        <p><strong>epsilon:</strong> {{ epsilon }}</p>
+                        <p><strong>alpha:</strong> {{ alpha }}</p>
+                        <p><strong>gamma:</strong> {{ gamma }}</p>
+                        <p><strong>episodes:</strong> {{ episodes }}</p>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
