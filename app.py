@@ -5,6 +5,7 @@ import os
 trained = False
 env = None
 human = "X"
+ai = "O"
 p1 = None
 p2 = None
 epsilon = alpha = gamma = episodes = ''
@@ -14,16 +15,16 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    global trained, env, human, p1, p2, epsilon, alpha, gamma, episodes
+    global trained, env, human, ai, p1, p2, epsilon, alpha, gamma, episodes
 
     #env.print_board()
     if trained == True:
         pass
     else:
         trained = False
-    move = None
     
-    winner = -1;
+    move = None
+    winner = None;
     win_cells = None;
     board = []
 
@@ -53,13 +54,11 @@ def home():
             print('AI Trained')
 
             
-
         elif submit_type == 'reset' and trained:
             env.reset();
-            human = "O" if human == "X" else "X"
+            human, ai = ("O", "X") if human == "X" else ("X", "O")
             if human == "O":
                 env.board[p2.step_ai(env)] = "X"
-            
             
 
         elif submit_type == 'move' and trained:
@@ -74,14 +73,19 @@ def home():
                 if env.available_actions(env.board) != []:
 
                     if env.board[idx] == ' ':
-                        if human == "X":
-                            env.board[idx] = 'X'
-                            if env.available_actions(env.board) != []:
-                                env.board[p2.step_ai(env)] = "O"
-                        if human == "O":
-                            env.board[idx] = "O"
-                            if env.available_actions(env.board) != []:
-                                env.board[p2.step_ai(env)] = "X"
+                        env.board[idx] = human
+                        winner = env.check_win()
+                        if winner == None:
+                            env.board[p2.step_ai(env)] = ai
+
+                        # if human == "X":
+                        #     env.board[idx] = 'X'
+                        #     if env.available_actions(env.board) != [] and env.check_win() != None:
+                        #         env.board[p2.step_ai(env)] = "O"
+                        # if human == "O":
+                        #     env.board[idx] = "O"
+                        #     if env.available_actions(env.board) != [] and env.check_win() != None:
+                        #         env.board[p2.step_ai(env)] = "X"
                         
                         #the html board is 3x3 while the board in the qtables is 1x9 so just convert
                         board_2d = [env.board[i:i + 3] for i in range(0, 9, 3)]

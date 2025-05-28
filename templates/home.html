@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         .grid {
-            background-image: url("{{ url_for('static', filename='images/waffle.png') }}");
+            background-image: url("{{ url_for('static', filename='images/grid.png') }}");
         }
     </style>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
@@ -16,8 +16,7 @@
 
 <body>
     <div class="page">
-        <h1>Q Learning Tic Tac Toe</h1>
-        {{board_2d}}
+        <h1>Q-Learning Tic Tac Toe</h1>
 
         <div class="container">
             <!-- q learning bs -->
@@ -34,13 +33,13 @@
                 </form>
 
                 {% if epsilon and alpha and gamma and episodes %}
-                <div>
-                    <h2>Submitted Parameters:</h2>
-                    <p><strong>epsilon:</strong> {{ epsilon }}</p>
-                    <p><strong>alpha:</strong> {{ alpha }}</p>
-                    <p><strong>gamma:</strong> {{ gamma }}</p>
-                    <p><strong>episodes:</strong> {{ episodes }}</p>
-                </div>
+                    <div>
+                        <h2>Submitted Parameters:</h2>
+                        <p><strong>epsilon:</strong> {{ epsilon }}</p>
+                        <p><strong>alpha:</strong> {{ alpha }}</p>
+                        <p><strong>gamma:</strong> {{ gamma }}</p>
+                        <p><strong>episodes:</strong> {{ episodes }}</p>
+                    </div>
                 {% endif %}
             </div>
 
@@ -51,31 +50,22 @@
                         {% for row in range(3) %}
                         {% for col in range(3) %}
                         <!-- first check if ai is trained -->
-                        {% if epsilon == '' %}
-                        <button name="cell" 
-                                value="{{ row }}-{{ col }}" 
-                                class="grid-cell"
+                        {% if epsilon == ''%}
+                            <button name="cell" value="{{ row }}-{{ col }}" class="grid-cell"
                                 onclick="trainAiWarning();"></button>
-                        <!-- clickable empty cells -->
-                        {% elif board[row][col] == ' ' %}
-                        <button type="submit" 
-                                name="cell" 
-                                value="{{ row }}-{{ col }}" 
-                                class="grid-cell"></button>
                         <!-- disable cells and display images if they are not empty -->
+                        {% elif board[row][col] != ' ' %}
+                            <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
+                                <img src="{{ url_for('static', filename='images/' + board[row][col] + '.png') }}" />
+                            </button>
+                        <!-- if game has ended -->
+                        {% elif winner != None %}
+                            <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
+                            </button>
+                        <!-- clickable empty cells -->
                         {% else %}
-                        <button disabled 
-                                name="cell" 
-                                value="{{ row }}-{{ col }}" 
-                                class="grid-cell">
-                            <img id="{{ row }}-{{ col }}" style="display:none;" />
-                            {% if board[row][col] == 'X' %}
-                            <img src="{{ url_for('static', filename='images/blueberry.png') }}" />
-                            {% else %}
-                            O
-                            <!-- <img src="{{ url_for('static', filename='images/o.png') }}" /> -->
-                            {% endif %}
-                        </button>
+                            <button type="submit" name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
+                            </button>
                         {% endif %}
                         {% endfor %}
                         {% endfor %}
@@ -95,18 +85,18 @@
 
                 <!-- display move -->
                 {% if move %}
-                <p>You clicked on cell: {{ move }}</p>
+                    <p>You clicked on cell: {{ move }}</p>
                 {% endif %}
             </div>
 
             <div class="column">
                 <!-- check for winner and output accordingly -->
                 {% if winner == 0 %}
-                <p>X wins!</p>
+                    <p>X wins!</p>
                 {% elif winner == 1 %}
-                <p>O wins!</p>
+                    <p>O wins!</p>
                 {% elif winner == 2 %}
-                <p>Draw!</p>
+                    <p>Draw!</p>
                 {% endif %}
 
                 <!-- reset/play again button -->
