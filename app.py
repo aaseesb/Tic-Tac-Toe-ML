@@ -24,7 +24,6 @@ def home():
     move = None
     
     winner = -1;
-    win_direction = None;
     win_cells = None;
     board = []
 
@@ -92,8 +91,6 @@ def home():
 
                         # this probably isn't the best place to put this
                         win_cells = env.win_cells
-                        if win_cells:
-                            win_direction = check_win_direction(win_cells);
 
                         if winner == 0 or winner == 1 or winner == 2:
                             env.print_board()
@@ -118,18 +115,7 @@ def home():
                            gamma=gamma,
                            episodes=episodes,
                            winner=winner,
-                           cells=win_cells,
-                           direction=win_direction)
-
-def check_win_direction(cells):
-    if cells == (0, 4, 8):
-        return 'down-right'
-    elif cells == (2, 4, 6):
-        return 'down-left'
-    elif cells in [(0,1,2),(3,4,5),(6,7,8)]:
-        return 'horizontal'
-    else:
-        return 'vertical'
+                           cells=win_cells,)
 
 if __name__ == '__main__':
     app.run(debug=True)

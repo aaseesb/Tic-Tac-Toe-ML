@@ -11,11 +11,13 @@
             background-image: url("{{ url_for('static', filename='images/waffle.png') }}");
         }
     </style>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 
 <body>
     <div class="page">
         <h1>Q Learning Tic Tac Toe</h1>
+        {{board_2d}}
 
         <div class="container">
             <!-- q learning bs -->
@@ -80,9 +82,12 @@
 
                         <!-- winning line -->
                         {% if cells != None %}
-                        {{cells}}
-                        {{direction}}
-                        <div class="winner-line {{direction}}"></div>
+                            <div class="winner-line" id="line"></div>
+                            <!-- run js function-->
+                            <script type="text/javascript">
+                                var cells = {{ cells | tojson }};
+                                drawWinLine(cells);
+                            </script>
                         {% endif %}
                     </div>
                     <input type="hidden" name="submit_type" value="move">
@@ -97,9 +102,9 @@
             <div class="column">
                 <!-- check for winner and output accordingly -->
                 {% if winner == 0 %}
-                <p>User wins!</p>
+                <p>X wins!</p>
                 {% elif winner == 1 %}
-                <p>Computer wins!</p>
+                <p>O wins!</p>
                 {% elif winner == 2 %}
                 <p>Draw!</p>
                 {% endif %}
@@ -111,7 +116,6 @@
             </div>
         </div>
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 
 </html>
