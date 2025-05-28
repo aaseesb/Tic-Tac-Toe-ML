@@ -1,17 +1,20 @@
 from flask import Flask, request, render_template
 from gameenv import TicTacToe, Player, load_dict, training, save_dict
+import os
 
 trained = False
 env = None
 human = "X"
 p1 = None
 p2 = None
+epsilon = alpha = gamma = episodes = ''
 
 app = Flask(__name__)
 
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    global trained, env, human, p1, p2
+    global trained, env, human, p1, p2, epsilon, alpha, gamma, episodes
 
     #env.print_board()
     if trained == True:
@@ -19,10 +22,11 @@ def home():
     else:
         trained = False
     move = None
-    epsilon = alpha = gamma = episodes = ''
+    
     winner = -1;
     win_direction = None;
     win_cells = None;
+    board = []
 
     print(win_cells)
 
@@ -30,7 +34,6 @@ def home():
         submit_type = request.form.get('submit_type')
 
         if submit_type == 'params':
-            
             epsilon = float(request.form.get('epsilon'))
             alpha = float(request.form.get('alpha'))
             gamma = float(request.form.get('gamma'))
@@ -38,7 +41,7 @@ def home():
 
             # AI training
             p1 = Player("X", "ai", epsilon, alpha, gamma)
-            p2 = Player("O", "ai",epsilon, alpha, gamma)
+            p2 = Player("O", "ai", epsilon, alpha, gamma)
             env = TicTacToe([p1, p2])
             training(env, p1,p2, episodes)
             save_dict(p1.q_table, "xtable.pkl")
@@ -46,8 +49,6 @@ def home():
 
             x_ai = Player("X", "ai",epsilon=0, q_table=load_dict('xtable.pkl') )
             o_ai = Player("O", "ai", epsilon=0, q_table=load_dict('otable.pkl'))
-
-
 
             trained = True
             print('AI Trained')
@@ -99,15 +100,15 @@ def home():
                             print("Winner:", winner)
                             env.board = [' ' for i in range(9)]
     
-    
     try:
         board=board_2d
     except(UnboundLocalError, AttributeError):
         try:
             board_2d = [env.board[i:i + 3] for i in range(0, 9, 3)]
         except(UnboundLocalError, AttributeError):
-            board_2d = [' ' for i in range(9)]
+            board_2d = [[' ', ' ', ' '] for i in range(3)]
 
+    print(board_2d)
 
     return render_template('home.html',
                            move=move,

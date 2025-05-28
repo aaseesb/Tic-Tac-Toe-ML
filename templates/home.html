@@ -45,15 +45,27 @@
             <!--tictactoe wip -->
             <div class="column" style="width:350px;">
                 <form method="POST">
-
                     <div class="grid">
                         {% for row in range(3) %}
                         {% for col in range(3) %}
-                        {% if board[row][col] == ' ' %}
-                        <button type="submit" name="cell" value="{{ row }}-{{ col }}" class="grid-cell"></button>
+                        <!-- first check if ai is trained -->
+                        {% if epsilon == '' %}
+                        <button name="cell" 
+                                value="{{ row }}-{{ col }}" 
+                                class="grid-cell"
+                                onclick="trainAiWarning();"></button>
+                        <!-- clickable empty cells -->
+                        {% elif board[row][col] == ' ' %}
+                        <button type="submit" 
+                                name="cell" 
+                                value="{{ row }}-{{ col }}" 
+                                class="grid-cell"></button>
                         <!-- disable cells and display images if they are not empty -->
                         {% else %}
-                        <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
+                        <button disabled 
+                                name="cell" 
+                                value="{{ row }}-{{ col }}" 
+                                class="grid-cell">
                             <img id="{{ row }}-{{ col }}" style="display:none;" />
                             {% if board[row][col] == 'X' %}
                             <img src="{{ url_for('static', filename='images/blueberry.png') }}" />
