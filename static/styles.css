@@ -5,8 +5,9 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f7f7f7;
+    background-color: #ffeadc;
     margin: 0;
+    color: #160c01;
 }
 
 h1 {
@@ -19,16 +20,6 @@ h1 {
     display: flex;
     flex-direction: column;
     text-align: center;
-    width: 900px;
-  height: 600px;
-  background: radial-gradient(circle at center, #ffffff 60%, #e0e0e0 100%);
-  border-radius: 50%;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
-  /* display: flex; */
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  padding: 20px;
 }
 
 .container {
@@ -36,7 +27,7 @@ h1 {
     display: flex;
     flex-direction: row;
     justify-content: start;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .column {
@@ -61,10 +52,13 @@ h1 {
     font-size: 1.2em;
     width: 90%;
     text-align: center;
+    border: 2px solid #2C1E1B;
+    background-color: #F4E3C1;
+    border-radius: 7px;
 }
 
 .input-box:focus {
-    outline: 2px solid #007bff;
+    outline: 2px solid #c78eb5;
 }
 
 /* buttons (non-grid) */
@@ -74,7 +68,10 @@ h1 {
     width: 90%;
     text-align: center;
     cursor: pointer;
-    object-fit: contain;
+    border: 2px solid #2C1E1B;
+    background-color: #5A3E41;
+    color: #F4E3C1;
+    border-radius: 7px;
 }
 
 /* game grid */
@@ -86,14 +83,14 @@ h1 {
     background-size: contain;
     background-position: center;
     display: grid;
-    grid-template-columns: repeat(3, 80px);
-    /* 3 columns */
-    grid-template-rows: repeat(3, 80px);
-    /* 3 rows */
-    gap: 5px;
+    grid-template-columns: repeat(3, 80px); /* 3 columns */
+    grid-template-rows: repeat(3, 80px); /* 3 rows */
     margin: 20px auto;
-    padding: 25px;
+    padding: 11px;
     gap: 11px;
+    border: 2px solid #2C1E1B;
+    background-color: #5A3E41;
+    border-radius: 7px;
 }
 
 .grid-cell {
@@ -107,6 +104,9 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 2px solid #2C1E1B;
+    background-color: #F4E3C1;
+    border-radius: 7px;
 }
 
 .grid-cell:hover {
@@ -121,10 +121,12 @@ h1 {
 /* winner line */
 .winner-line {
     position: absolute;
-    height: 4px;
-    background-color: rgb(255, 112, 83);
-    top: 150px;
-    left: 30px;
-    width: 80%;
+    height: 5px;
+    background-color: #c78eb5;
+    top: 140px;
+    left: 15px;
+    width: 90%;
     z-index: 10;
+    border-radius: 5px;
+    border: .5px solid #815C75;
 }
