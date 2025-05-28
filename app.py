@@ -12,7 +12,7 @@ env = TicTacToe([p1, p2])
 def home():
     env.print_board()
     move = None
-    epsilon = alpha = gamma = episodes = None
+    epsilon = alpha = gamma = episodes = ''
     winner = -1;
 
     if request.method == 'POST':
@@ -28,6 +28,7 @@ def home():
             env.reset();
 
         elif submit_type == 'move':
+            # retrieve location of move
             move = request.form.get('cell')
             print("Form data:", request.form)
             if move:
@@ -36,7 +37,6 @@ def home():
 
                 #theres probably better way than checking available actions twice but fuck it
                 if env.available_actions(env.board) != []:
-                    print("AHHHHH",env.board[idx])
                     if env.board[idx] == ' ':
                         env.board[idx] = 'X'
                         if env.available_actions(env.board) != []:
@@ -45,6 +45,7 @@ def home():
                         #the html board is 3x3 while the board in the qtables is 1x9 so just convert
                         board_2d = [env.board[i:i + 3] for i in range(0, 9, 3)]
 
+                        # check for a winner and update variable accordingly
                         winner = env.check_win()
                         if winner == 0 or winner == 1 or winner == 2:
                             env.print_board()
@@ -53,6 +54,7 @@ def home():
     
     
     #omg this is such a shit solution to this but im too tired to find anything else to fix when you select a preselcted block
+    # if by select a preselected block, you mean selecting a block that has already been chosen, i fixed it. it doesn't allow you to press on it now
     try:
         board=board_2d
     except UnboundLocalError:

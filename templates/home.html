@@ -8,23 +8,22 @@
     <style>
         .grid {
             background-image: url("{{ url_for('static', filename='images/waffle.png') }}");
-            /* background-color: pink; */
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="page">
         <h1>Q Learning Tic Tac Toe</h1>
 
+        <div class="container">
         <!-- q learning bs -->
-        <form action="/" method="POST">
-            <div class="input-container">
-                <input type="text" class="input-box" name="epsilon" placeholder="greed (0.5)" value="{{ epsilon }}">
-                <input type="text" class="input-box" name="alpha" placeholder="learning rate (0.1)" value="{{ alpha }}">
-                <input type="text" class="input-box" name="gamma" placeholder="discount factor (0.9)" value="{{ gamma }}">
-                <input type="text" class="input-box" name="episodes" placeholder="Training Episodes (100000)" value="{{ episodes }}">
-            </div>
-            <button type="submit" name="submit_type" value="params">Submit Params</button>
+        <div class="column">
+        <form action="/" method="POST" id="ai-inputs">
+                <input type="text" class="input-box" name="epsilon" placeholder="Greed (0.5)" value="{{ epsilon }}">
+                <input type="text" class="input-box" name="alpha" placeholder="Learning rate (0.1)" value="{{ alpha }}">
+                <input type="text" class="input-box" name="gamma" placeholder="Discount factor (0.9)" value="{{ gamma }}">
+                <input type="text" class="input-box" name="episodes" placeholder="Training Episodes (100k)" value="{{ episodes }}">
+            <button type="submit" name="submit_type" value="params" class="button">Submit Parameters</button>
         </form>
 
         {% if epsilon and alpha and gamma and episodes %}
@@ -36,9 +35,12 @@
                 <p><strong>episodes:</strong> {{ episodes }}</p>
             </div>
         {% endif %}
+        </div>
 
         <!--tictactoe wip -->
+        <div class="column" style="width:350px;">
         <form method="POST">
+            
             <div class="grid" >
                 {% for row in range(3) %}
                     {% for col in range(3) %}
@@ -66,7 +68,9 @@
         {% if move %}
             <p>You clicked on cell: {{ move }}</p>
         {% endif %}
+        </div>
 
+        <div class="column">
         <!-- check for winner and output accordingly -->
         {% if winner == 0 %}
             <p>User wins!</p>
@@ -78,8 +82,10 @@
 
         <!-- reset/play again button -->
         <form method="POST">
-            <button type="submit" name="submit_type" value="reset">Restart</button>
+            <button type="submit" name="submit_type" value="reset" class="button">Reset </button>
         </form>
+        </div>
+        </div>
     </div>
 </body>
 </html>

@@ -46,9 +46,7 @@ class TicTacToe:
                          (0,3,6),(1,4,7),(2,5,8),
                          (0,4,8),(2,4,6)]
         for (a,b,c) in winconditions:
-            print(a,b,c)
             if self.board[a] != " " and self.board[a]==self.board[b]==self.board[c]:
-                print("someone won")
                 self.done = True
                 if self.board[a] == "X":
                     self.winner = 0
@@ -62,7 +60,6 @@ class TicTacToe:
             self.winner = 2
             return self.winner
         return None
-        
 
 
 # PLAYER

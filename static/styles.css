@@ -14,14 +14,32 @@ h1 {
     margin-bottom: 20px;
 }
 
-/* general container */
-.container {
+/* general containers */
+.page {
+    display: flex;
+    flex-direction: column;
     text-align: center;
 }
 
-/* inputs for parameters*/
-.input-container {
+.container {
+    text-align: center;
     display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    width: 200px;
+}
+
+/* inputs for parameters */
+#ai-inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
     max-width: 600px;
     margin: 0 auto;
@@ -30,12 +48,21 @@ h1 {
 .input-box {
     padding: 10px;
     font-size: 1.2em;
-    width: 30%;
+    width: 90%;
     text-align: center;
 }
 
 .input-box:focus {
     outline: 2px solid #007bff;
+}
+
+/* buttons (non-grid) */
+.button {
+    padding: 10px;
+    font-size: 1.2em;
+    width: 90%;
+    text-align: center;
+    cursor: pointer;
 }
 
 /* game grid */
