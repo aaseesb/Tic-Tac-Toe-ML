@@ -14,6 +14,10 @@ def home():
     move = None
     epsilon = alpha = gamma = episodes = ''
     winner = -1;
+    win_direction = None;
+    win_cells = None;
+
+    print(win_cells)
 
     if request.method == 'POST':
         submit_type = request.form.get('submit_type')
@@ -47,6 +51,12 @@ def home():
 
                         # check for a winner and update variable accordingly
                         winner = env.check_win()
+
+                        # this probably isn't the best place to put this
+                        win_cells = env.win_cells
+                        if win_cells:
+                            win_direction = check_win_direction(win_cells);
+
                         if winner == 0 or winner == 1 or winner == 2:
                             env.print_board()
                             print("Winner:", winner)
@@ -61,7 +71,6 @@ def home():
         board_2d = [env.board[i:i + 3] for i in range(0, 9, 3)]
 
 
-
     return render_template('home.html',
                            move=move,
                            board=board_2d,
@@ -69,7 +78,19 @@ def home():
                            alpha=alpha,
                            gamma=gamma,
                            episodes=episodes,
-                           winner=winner)
+                           winner=winner,
+                           cells=win_cells,
+                           direction=win_direction)
+
+def check_win_direction(cells):
+    if cells == (0, 4, 8):
+        return 'down-right'
+    elif cells == (2, 4, 6):
+        return 'down-left'
+    elif cells in [(0,1,2),(3,4,5),(6,7,8)]:
+        return 'horizontal'
+    else:
+        return 'vertical'
 
 if __name__ == '__main__':
     app.run(debug=True)

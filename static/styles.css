@@ -25,6 +25,7 @@ h1 {
     text-align: center;
     display: flex;
     flex-direction: row;
+    justify-content: start;
     align-items: center;
 }
 
@@ -67,6 +68,7 @@ h1 {
 
 /* game grid */
 .grid {
+    position: relative;
     width: 260px;
     height: 260px;
     background-repeat: no-repeat;
@@ -104,3 +106,33 @@ h1 {
     background-color: transparent;
     cursor: default;
 }
+
+/* winner line */
+.winner-line {
+    position: absolute;
+    height: 4px;
+    background-color: red;
+    top: 150px;
+    left: 30px;
+    width: 80%;
+    /* width: 250px; */
+    z-index: 10;
+}
+
+.winner-line.horizontal {
+    
+}
+
+.winner-line.vertical {
+    transform: rotate(90deg);
+}
+
+.winner-line.down-right {
+    transform: rotate(225deg);
+}
+
+.winner-line.down-left {
+    transform: rotate(135deg);
+}
+
+/* horizontal: 60, 150, 240 */

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,81 +12,94 @@
         }
     </style>
 </head>
+
 <body>
     <div class="page">
         <h1>Q Learning Tic Tac Toe</h1>
 
         <div class="container">
-        <!-- q learning bs -->
-        <div class="column">
-        <form action="/" method="POST" id="ai-inputs">
-                <input type="text" class="input-box" name="epsilon" placeholder="Greed (0.5)" value="{{ epsilon }}">
-                <input type="text" class="input-box" name="alpha" placeholder="Learning rate (0.1)" value="{{ alpha }}">
-                <input type="text" class="input-box" name="gamma" placeholder="Discount factor (0.9)" value="{{ gamma }}">
-                <input type="text" class="input-box" name="episodes" placeholder="Training Episodes (100k)" value="{{ episodes }}">
-            <button type="submit" name="submit_type" value="params" class="button">Submit Parameters</button>
-        </form>
+            <!-- q learning bs -->
+            <div class="column">
+                <form action="/" method="POST" id="ai-inputs">
+                    <input type="text" class="input-box" name="epsilon" placeholder="Greed (0.5)" value="{{ epsilon }}">
+                    <input type="text" class="input-box" name="alpha" placeholder="Learning rate (0.1)"
+                        value="{{ alpha }}">
+                    <input type="text" class="input-box" name="gamma" placeholder="Discount factor (0.9)"
+                        value="{{ gamma }}">
+                    <input type="text" class="input-box" name="episodes" placeholder="Training Episodes (100k)"
+                        value="{{ episodes }}">
+                    <button type="submit" name="submit_type" value="params" class="button">Submit Parameters</button>
+                </form>
 
-        {% if epsilon and alpha and gamma and episodes %}
-            <div>
-                <h2>Submitted Parameters:</h2>
-                <p><strong>epsilon:</strong> {{ epsilon }}</p>
-                <p><strong>alpha:</strong> {{ alpha }}</p>
-                <p><strong>gamma:</strong> {{ gamma }}</p>
-                <p><strong>episodes:</strong> {{ episodes }}</p>
+                {% if epsilon and alpha and gamma and episodes %}
+                <div>
+                    <h2>Submitted Parameters:</h2>
+                    <p><strong>epsilon:</strong> {{ epsilon }}</p>
+                    <p><strong>alpha:</strong> {{ alpha }}</p>
+                    <p><strong>gamma:</strong> {{ gamma }}</p>
+                    <p><strong>episodes:</strong> {{ episodes }}</p>
+                </div>
+                {% endif %}
             </div>
-        {% endif %}
-        </div>
 
-        <!--tictactoe wip -->
-        <div class="column" style="width:350px;">
-        <form method="POST">
-            
-            <div class="grid" >
-                {% for row in range(3) %}
-                    {% for col in range(3) %}
+            <!--tictactoe wip -->
+            <div class="column" style="width:350px;">
+                <form method="POST">
+
+                    <div class="grid">
+                        {% for row in range(3) %}
+                        {% for col in range(3) %}
                         {% if board[row][col] == ' ' %}
-                            <button type="submit" name="cell" value="{{ row }}-{{ col }}" class="grid-cell"></button>
+                        <button type="submit" name="cell" value="{{ row }}-{{ col }}" class="grid-cell"></button>
                         <!-- disable cells and display images if they are not empty -->
                         {% else %}
-                            <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
-                                <img id="{{ row }}-{{ col }}" style="display:none;" />
-                                {% if board[row][col] == 'X' %}
-                                    <img src="{{ url_for('static', filename='images/blueberry.png') }}" />
-                                {% else %}
-                                    O
-                                    <!-- <img src="{{ url_for('static', filename='images/o.png') }}" /> -->
-                                {% endif %}
-                            </button>
+                        <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
+                            <img id="{{ row }}-{{ col }}" style="display:none;" />
+                            {% if board[row][col] == 'X' %}
+                            <img src="{{ url_for('static', filename='images/blueberry.png') }}" />
+                            {% else %}
+                            O
+                            <!-- <img src="{{ url_for('static', filename='images/o.png') }}" /> -->
+                            {% endif %}
+                        </button>
                         {% endif %}
-                    {% endfor %}
-                {% endfor %}
+                        {% endfor %}
+                        {% endfor %}
+
+                        <!-- winning line -->
+                        {% if cells != None %}
+                        {{cells}}
+                        {{direction}}
+                        <div class="winner-line {{direction}}"></div>
+                        {% endif %}
+                    </div>
+                    <input type="hidden" name="submit_type" value="move">
+                </form>
+
+                <!-- display move -->
+                {% if move %}
+                <p>You clicked on cell: {{ move }}</p>
+                {% endif %}
             </div>
-            <input type="hidden" name="submit_type" value="move">
-        </form>
 
-        <!-- display move -->
-        {% if move %}
-            <p>You clicked on cell: {{ move }}</p>
-        {% endif %}
-        </div>
+            <div class="column">
+                <!-- check for winner and output accordingly -->
+                {% if winner == 0 %}
+                <p>User wins!</p>
+                {% elif winner == 1 %}
+                <p>Computer wins!</p>
+                {% elif winner == 2 %}
+                <p>Draw!</p>
+                {% endif %}
 
-        <div class="column">
-        <!-- check for winner and output accordingly -->
-        {% if winner == 0 %}
-            <p>User wins!</p>
-        {% elif winner == 1 %}
-            <p>Computer wins!</p>
-        {% elif winner == 2 %}
-            <p>Draw!</p>
-        {% endif %}
-
-        <!-- reset/play again button -->
-        <form method="POST">
-            <button type="submit" name="submit_type" value="reset" class="button">Reset </button>
-        </form>
-        </div>
+                <!-- reset/play again button -->
+                <form method="POST">
+                    <button type="submit" name="submit_type" value="reset" class="button">Reset </button>
+                </form>
+            </div>
         </div>
     </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
+
 </html>

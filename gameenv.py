@@ -18,6 +18,7 @@ class TicTacToe:
         self.board = [" " for x in range(9)]
         self.done = False
         self.winner = ''
+        self.win_cells = None;
 
     def aigame(self):
         while True:
@@ -47,6 +48,7 @@ class TicTacToe:
                          (0,4,8),(2,4,6)]
         for (a,b,c) in winconditions:
             if self.board[a] != " " and self.board[a]==self.board[b]==self.board[c]:
+                self.win_cells = (a,b,c)
                 self.done = True
                 if self.board[a] == "X":
                     self.winner = 0
