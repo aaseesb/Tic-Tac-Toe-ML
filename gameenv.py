@@ -161,7 +161,6 @@ def check(env, p1,p2):
     return win, loss, draw
 
 def get_qvalues(x_ai, o_ai, env, turn):
-
     board = tuple(env.board)
     
     if turn == 'X':

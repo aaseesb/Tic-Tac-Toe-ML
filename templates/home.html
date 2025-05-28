@@ -18,12 +18,12 @@
             <!-- q learning training parameter inputs -->
             <div class="column" style="margin-top:40px;">
                 <form action="/" method="POST" id="ai-inputs">
-                    <input type="text" class="input-box" name="epsilon" placeholder="Greed (0.5)" value="{{ epsilon }}">
-                    <input type="text" class="input-box" name="alpha" placeholder="Learning rate (0.1)"
+                    <input type="text" class="input-box" name="epsilon" placeholder="Greed" value="{{ epsilon }}">
+                    <input type="text" class="input-box" name="alpha" placeholder="Learning rate"
                         value="{{ alpha }}">
-                    <input type="text" class="input-box" name="gamma" placeholder="Discount factor (0.9)"
+                    <input type="text" class="input-box" name="gamma" placeholder="Discount factor"
                         value="{{ gamma }}">
-                    <input type="text" class="input-box" name="episodes" placeholder="Training Episodes (100k)"
+                    <input type="text" class="input-box" name="episodes" placeholder="Training Episodes"
                         value="{{ episodes }}">
                     <button type="submit" name="submit_type" value="params" class="button">Submit Parameters</button>
                 </form>
@@ -42,7 +42,7 @@
                             <button name="cell" value="{{ row }}-{{ col }}" class="grid-cell"
                                 onclick="trainAiWarning();"></button>
                         <!-- disable cells and display images if they are not empty -->
-                        {% elif board[row][col] != ' ' %}
+                        {% elif board[row][col] == 'X' or board[row][col] == 'O'%}
                             <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
                                 <img src="{{ url_for('static', filename='images/' + board[row][col] + '.png') }}" />
                             </button>
@@ -53,6 +53,7 @@
                         <!-- clickable empty cells -->
                         {% else %}
                             <button type="submit" name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
+                            <p style="color:#6d57499c; font-size:.5em;"></style>{{board[row][col]}}</p>
                             </button>
                         {% endif %}
                         {% endfor %}
@@ -84,7 +85,7 @@
                 
                 <!-- reset/play again button -->
                 <form method="POST">
-                    <button type="submit" name="submit_type" value="reset" class="button">Reset </button>
+                    <button type="submit" name="submit_type" value="reset" class="button">Reset Game</button>
                 </form>
 
                 <!-- display move -->
@@ -97,7 +98,7 @@
 
             <!-- parameters being used -->
             <div class="column" style="margin-top:30px;">
-                {% if epsilon and alpha and gamma and episodes %}
+                {% if epsilon!='' and alpha!='' and gamma!='' and episodes!='' %}
                     <div>
                         <h2>Submitted Parameters:</h2>
                         <p><strong>epsilon:</strong> {{ epsilon }}</p>

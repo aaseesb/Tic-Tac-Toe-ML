@@ -19,7 +19,6 @@ app = Flask(__name__)
 def home():
     global trained, env, human, ai, p1, p2, epsilon, alpha, gamma, episodes, o_ai, x_ai
 
-    #env.print_board()
     if trained == True:
         pass
     else:
@@ -28,9 +27,6 @@ def home():
     move = None
     winner = None;
     win_cells = None;
-    board = []
-
-    #print(win_cells)
 
     if request.method == 'POST':
         submit_type = request.form.get('submit_type')
@@ -60,12 +56,13 @@ def home():
             
         elif submit_type == 'reset' and trained:
             env.reset();
+            # switch icons each time game is reset
             human, ai = ("O", "X") if human == "X" else ("X", "O")
             if human == "O":
                 env.board[o_ai.step_ai(env)] = "X"
                 
-            print(get_qvalues(x_ai,o_ai,env,human))
-            
+            qvalues = get_qvalues(x_ai,o_ai,env,human)
+            combine2d(env.board, qvalues)
 
         elif submit_type == 'move' and trained:            
             
@@ -78,9 +75,11 @@ def home():
                 
                 #theres probably better way than checking available actions twice but fuck it
                 if env.available_actions(env.board) != []:
-
+                    # check if cell is empty before playing move
                     if env.board[idx] == ' ':
                         env.board[idx] = human
+
+                        # check if user has won before making ai play move
                         winner = env.check_win()
                         if winner == None:
                             if ai == "X":
@@ -88,30 +87,18 @@ def home():
                             else: 
                                 env.board[o_ai.step_ai(env)] = ai
                         
-                        # might not be ideal place to put this
-                        print(get_qvalues(x_ai,o_ai,env,human))
+                        # retrieve possibilities of ai playing move in each cell
+                        qvalues = get_qvalues(x_ai,o_ai,env,human)
 
-                        # if human == "X":
-                        #     env.board[idx] = 'X'
-                        #     if env.available_actions(env.board) != [] and env.check_win() != None:
-                        #         env.board[p2.step_ai(env)] = "O"
-                        # if human == "O":
-                        #     env.board[idx] = "O"
-                        #     if env.available_actions(env.board) != [] and env.check_win() != None:
-                        #         env.board[p2.step_ai(env)] = "X"
-                        
-                        #the html board is 3x3 while the board in the qtables is 1x9 so just convert
-                        board_2d = [env.board[i:i + 3] for i in range(0, 9, 3)]
+                        #the html board is 3x3 while the board in the qtables is 1x9 so convert to 2d list
+                        board_2d = combine2d(env.board, qvalues)
 
                         # check for a winner and update variable accordingly
                         winner = env.check_win()
 
-                        # this probably isn't the best place to put this
-                        win_cells = env.win_cells
-
                         if winner == 0 or winner == 1 or winner == 2:
+                            win_cells = env.win_cells
                             env.print_board()
-                            print("Winner:", winner)
                             env.board = [' ' for i in range(9)]
     
     try:
@@ -132,7 +119,23 @@ def home():
                            gamma=gamma,
                            episodes=episodes,
                            winner=winner,
-                           cells=win_cells,)
+                           cells=win_cells)
+
+def combine2d(board, qvalues):
+    # first, apply taken positions to board_2d
+    board_2d = [env.board[i:i + 3] for i in range(0, 9, 3)]
+
+    # then, iterate through empty positions and apply q-values
+    if qvalues != []:
+        for i in range(0, 3):
+            for j in range(0, 3):
+                if board_2d[i][j] == ' ':
+                    board_2d[i][j] = qvalues[0]
+                    print(qvalues[0])
+                    qvalues.remove(qvalues[0])
+                    print(qvalues);
+
+    return board_2d
 
 if __name__ == '__main__':
     app.run(debug=True)
