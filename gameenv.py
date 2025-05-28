@@ -160,6 +160,16 @@ def check(env, p1,p2):
         env.reset()
     return win, loss, draw
 
+def get_qvalues(x_ai, o_ai, env, turn):
+
+    board = tuple(env.board)
+    
+    if turn == 'X':
+        q_table = x_ai.q_table
+    elif turn == 'O':
+        q_table = o_ai.q_table
+
+    return q_table[board] if board in q_table else []
 
 
 def save_dict(dictionary, filename):

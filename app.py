@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from gameenv import TicTacToe, Player, load_dict, training, save_dict
+from gameenv import TicTacToe, Player, load_dict, training, save_dict, get_qvalues
 import os
 
 trained = False
@@ -30,7 +30,7 @@ def home():
     win_cells = None;
     board = []
 
-    print(win_cells)
+    #print(win_cells)
 
     if request.method == 'POST':
         submit_type = request.form.get('submit_type')
@@ -55,7 +55,7 @@ def home():
             o_ai = Player("O", "ai", epsilon=0, q_table=load_dict('otable.pkl'))
 
             trained = True
-            print('AI Trained')
+            #print('AI Trained')
 
             
         elif submit_type == 'reset' and trained:
@@ -63,16 +63,19 @@ def home():
             human, ai = ("O", "X") if human == "X" else ("X", "O")
             if human == "O":
                 env.board[o_ai.step_ai(env)] = "X"
+                
+            print(get_qvalues(x_ai,o_ai,env,human))
             
 
-        elif submit_type == 'move' and trained:
+        elif submit_type == 'move' and trained:            
+            
             # retrieve location of move
             move = request.form.get('cell')
             print("Form data:", request.form)
             if move:
                 row, col = map(int, move.split('-'))
                 idx = row * 3 + col
-
+                
                 #theres probably better way than checking available actions twice but fuck it
                 if env.available_actions(env.board) != []:
 
@@ -84,6 +87,9 @@ def home():
                                 env.board[x_ai.step_ai(env)] = ai
                             else: 
                                 env.board[o_ai.step_ai(env)] = ai
+                        
+                        # might not be ideal place to put this
+                        print(get_qvalues(x_ai,o_ai,env,human))
 
                         # if human == "X":
                         #     env.board[idx] = 'X'
