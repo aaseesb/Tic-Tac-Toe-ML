@@ -1,0 +1,31 @@
+<div class="grid">
+  {% for row in range(3) %}
+    {% for col in range(3) %}
+      {% set cell_value = board[row][col] %}
+      
+      {% if cell_value == 'X' or cell_value == 'O' %}
+        <!-- Disabled button showing X or O image -->
+        <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
+          <img src="{{ url_for('static', filename='images/' + cell_value + '.png') }}" />
+        </button>
+
+      {% elif cell_value == ' ' or cell_value is number %}
+        <!-- Clickable empty cells or Q-value shown -->
+        <button type="submit" name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
+          {% if cell_value is number %}
+            <p style="color:#6d57499c; font-size:.5em;">{{ '%.2f'|format(cell_value) }}</p>
+          {% else %}
+            <p style="color:#6d57499c; font-size:.5em;">&nbsp;</p>
+          {% endif %}
+        </button>
+
+      {% else %}
+        <!-- fallback for anything else -->
+        <button type="submit" name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
+          <p style="color:#6d57499c; font-size:.5em;">{{ cell_value }}</p>
+        </button>
+      {% endif %}
+
+    {% endfor %}
+  {% endfor %}
+</div>

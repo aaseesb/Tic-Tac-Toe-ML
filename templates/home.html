@@ -34,44 +34,12 @@
             <div class="column" style="width:350px;">
                 <!-- tictactoe game -->
                 <form method="POST">
-                    <div class="grid">
-                        {% for row in range(3) %}
-                        {% for col in range(3) %}
-                        <!-- first check if ai is trained -->
-                        {% if epsilon == ''%}
-                            <button name="cell" value="{{ row }}-{{ col }}" class="grid-cell"
-                                onclick="trainAiWarning();"></button>
-                        <!-- disable cells and display images if they are not empty -->
-                        {% elif board[row][col] == 'X' or board[row][col] == 'O'%}
-                            <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
-                                <img src="{{ url_for('static', filename='images/' + board[row][col] + '.png') }}" />
-                            </button>
-                        <!-- if game has ended -->
-                        {% elif winner != None %}
-                            <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
-                            </button>
-                        <!-- clickable empty cells -->
-                        {% else %}
-                            <button type="submit" name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
-                            <p style="color:#6d57499c; font-size:.5em;"></style>{{board[row][col]}}</p>
-                            </button>
-                        {% endif %}
-                        {% endfor %}
-                        {% endfor %}
-
-                        <!-- winning line -->
-                        {% if cells != None %}
-                            <div class="winner-line" id="line"></div>
-                            <!-- run js function-->
-                            <script type="text/javascript">
-                                var cells = {{ cells | tojson }};
-                                drawWinLine(cells);
-                            </script>
-                        {% endif %}
+                    <div id="board-container">
+                        {% include 'board.html' %}
                     </div>
+
                     <input type="hidden" name="submit_type" value="move">
-                
-                
+                    
                 <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
                 <label for="show_qvalues" style="display: inline-flex; align-items: center; gap: 6px;">
                     <input type="checkbox" id="show_qvalues" name="qvalues" value="true"

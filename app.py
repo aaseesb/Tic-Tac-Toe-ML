@@ -59,7 +59,7 @@ def home():
             # switch icons each time game is reset
             human, ai = ("O", "X") if human == "X" else ("X", "O")
             if human == "O":
-                env.board[o_ai.step_ai(env)] = "X"
+                env.board[o_ai.step_ai(env)] = ai
                 
             qvalues = get_qvalues(x_ai,o_ai,env,human)
             combine2d(env.board, qvalues)
@@ -130,6 +130,19 @@ def update_qvalues():
     show_qvalues = data.get('qvalues', False)
     print("Q-values checkbox is now:", show_qvalues)
     return jsonify(success=True)
+
+@app.route('/get_board')
+def get_board():
+    global env, x_ai, o_ai, human
+    if env is None:
+        return jsonify(html='<p>Game not started</p>')
+
+    qvalues = get_qvalues(x_ai, o_ai, env, human) if show_qvalues else []
+
+    board_2d = combine2d(env.board, qvalues)
+
+    rendered_board = render_template('board.html', board=board_2d)
+    return jsonify(html=rendered_board)
 
 def combine2d(board, qvalues):
     # first, apply taken positions to board_2d
