@@ -1,7 +1,7 @@
 import random
 import numpy
 import pickle
-
+import os
 
 # GAME
 class TicTacToe:
@@ -172,6 +172,10 @@ def get_qvalues(x_ai, o_ai, env, turn):
     
     return [round(i,3) for i in x]
 
+def clear_dict(dictionary_filenames):
+    for file in dictionary_filenames:
+        os.remove(file)
+        print(file, 'removed')
 
 def save_dict(dictionary, filename):
     with open(filename, 'wb') as f:

@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, jsonify
-from gameenv import TicTacToe, Player, load_dict, training, save_dict, get_qvalues
+from gameenv import TicTacToe, Player, load_dict, training, save_dict, get_qvalues, clear_dict
 
 show_qvalues = False
 trained = False
@@ -32,24 +32,31 @@ def home():
         submit_type = request.form.get('submit_type')
 
         if submit_type == 'params':
+            
+            if trained == True:
+                clear_dict(['xtable.pkl','otable.pkl'])    
+                print('removed')
+                trained = False
+
             epsilon = float(request.form.get('epsilon'))
             alpha = float(request.form.get('alpha'))
             gamma = float(request.form.get('gamma'))
             episodes = int(request.form.get('episodes'))
 
             # AI training
-            p1 = Player("X", "ai", epsilon, alpha, gamma)
-            p2 = Player("O", "ai", epsilon, alpha, gamma)
-
+            p1 = Player("X", "ai", epsilon, alpha, gamma, q_table={})
+            p2 = Player("O", "ai", epsilon, alpha, gamma, q_table = {})
             env = TicTacToe([p1, p2])
             training(env, p1,p2, episodes)
-            
+
+            #print(p1.q_table)
             save_dict(p1.q_table, "xtable.pkl")
             save_dict(p1.q_table, "otable.pkl")
 
             x_ai = Player("X", "ai",epsilon=0, q_table=load_dict('xtable.pkl') )
             o_ai = Player("O", "ai", epsilon=0, q_table=load_dict('otable.pkl'))
 
+            #print(x_ai.q_table)
             trained = True
             #print('AI Trained')
 
@@ -68,7 +75,7 @@ def home():
             
             # retrieve location of move
             move = request.form.get('cell')
-            print("Form data:", request.form)
+            #print("Form data:", request.form)
             if move:
                 row, col = map(int, move.split('-'))
                 idx = row * 3 + col
@@ -109,8 +116,8 @@ def home():
         except(UnboundLocalError, AttributeError):
             board_2d = [[' ', ' ', ' '] for i in range(3)]
 
-    print(board_2d)
-    print(win_cells)
+    #print(board_2d)
+    #print(win_cells)
 
     return render_template('home.html',
                            move=move,
@@ -129,7 +136,7 @@ def update_qvalues():
     global show_qvalues
     data = request.get_json()
     show_qvalues = data.get('qvalues', False)
-    print("Q-values checkbox is now:", show_qvalues)
+    #print("Q-values checkbox is now:", show_qvalues)
     return jsonify(success=True)
 
 @app.route('/get_board')
@@ -155,9 +162,9 @@ def combine2d(board, qvalues):
             for j in range(0, 3):
                 if board_2d[i][j] == ' ':
                     board_2d[i][j] = qvalues[0]
-                    print(qvalues[0])
+                    #print(qvalues[0])
                     qvalues.remove(qvalues[0])
-                    print(qvalues);
+                    #print(qvalues);
 
     return board_2d
 
