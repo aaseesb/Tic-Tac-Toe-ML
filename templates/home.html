@@ -7,7 +7,7 @@
     <title>Q Learning Tic Tac Toe</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
 
 <body>
@@ -70,8 +70,18 @@
                         {% endif %}
                     </div>
                     <input type="hidden" name="submit_type" value="move">
-                </form>
+                
+                
+                <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+                <label for="show_qvalues" style="display: inline-flex; align-items: center; gap: 6px;">
+                    <input type="checkbox" id="show_qvalues" name="qvalues" value="true"
+                        {% if qvalues_state %}checked{% endif %}
+                        onchange="sendCheckboxState(this)">
+                    <span>Show Q-values</span>
+                </label>
+                </div>
 
+                </form>
                 <!-- check for winner and output accordingly -->
                 {% if winner == 0 %}
                     <h2>X wins!</h2>

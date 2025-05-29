@@ -1,6 +1,7 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from gameenv import TicTacToe, Player, load_dict, training, save_dict, get_qvalues
 
+show_qvalues = False
 trained = False
 env = None
 human = "X"
@@ -118,14 +119,24 @@ def home():
                            gamma=gamma,
                            episodes=episodes,
                            winner=winner,
-                           cells=win_cells)
+                           cells=win_cells,
+                           qvalues_state = show_qvalues)
+
+
+@app.route('/update_qvalues', methods=['POST'])
+def update_qvalues():
+    global show_qvalues
+    data = request.get_json()
+    show_qvalues = data.get('qvalues', False)
+    print("Q-values checkbox is now:", show_qvalues)
+    return jsonify(success=True)
 
 def combine2d(board, qvalues):
     # first, apply taken positions to board_2d
     board_2d = [env.board[i:i + 3] for i in range(0, 9, 3)]
 
     # then, iterate through empty positions and apply q-values
-    if qvalues != []:
+    if qvalues != [] and show_qvalues:
         for i in range(0, 3):
             for j in range(0, 3):
                 if board_2d[i][j] == ' ':

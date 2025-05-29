@@ -38,3 +38,13 @@ function drawWinLine(cells) {
 function trainAiWarning() {
     window.alert("AI not trained. Please train AI before playing.");
 }
+
+function sendCheckboxState(checkbox) {
+  fetch('/update_qvalues', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ qvalues: checkbox.checked })
+  });
+}
