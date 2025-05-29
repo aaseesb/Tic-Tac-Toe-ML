@@ -139,7 +139,7 @@ p {
 
 /* winner line */
 .winner-line {
-    position: absolute;
+    position: relative;
     height: 5px;
     background-color: #c78eb5;
     top: 140px;
