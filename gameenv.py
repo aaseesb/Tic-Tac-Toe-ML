@@ -168,7 +168,9 @@ def get_qvalues(x_ai, o_ai, env, turn):
     elif turn == 'O':
         q_table = o_ai.q_table
 
-    return q_table[board] if board in q_table else []
+    x = q_table[board] if board in q_table else []
+    
+    return [round(i,3) for i in x]
 
 
 def save_dict(dictionary, filename):
