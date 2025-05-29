@@ -12,7 +12,10 @@
       <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
         <img src="{{ url_for('static', filename='images/' + cell_value + '.png') }}" />
       </button>
-
+    {% elif winner != None %}
+      <!-- If game has ended -->
+      <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
+      </button>
     {% elif cell_value == ' ' or cell_value is number %}
       <!-- Clickable empty cells or Q-value shown -->
       <button type="submit" name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
