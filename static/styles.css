@@ -139,12 +139,12 @@ p {
 
 /* winner line */
 .winner-line {
-    position: relative;
+    position: absolute;
     height: 5px;
     background-color: #c78eb5;
     top: 140px;
     left: 15px;
-    width: 10%;
+    width: 90%;
     z-index: 10;
     border-radius: 5px;
     border: .75px solid #2d0420;

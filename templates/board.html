@@ -1,9 +1,14 @@
-<div class="grid">
+
   {% for row in range(3) %}
     {% for col in range(3) %}
       {% set cell_value = board[row][col] %}
       
-      {% if cell_value == 'X' or cell_value == 'O' %}
+      {% if epsilon == ''%}
+        <!-- If parameters have not been submitted, display a warning on click-->
+        <button name="cell" value="{{ row }}-{{ col }}" class="grid-cell"
+          onclick="trainAiWarning();">
+        </button>
+      {% elif cell_value == 'X' or cell_value == 'O' %}
         <!-- Disabled button showing X or O image -->
         <button disabled name="cell" value="{{ row }}-{{ col }}" class="grid-cell">
           <img src="{{ url_for('static', filename='images/' + cell_value + '.png') }}" />
@@ -28,4 +33,3 @@
 
     {% endfor %}
   {% endfor %}
-</div>

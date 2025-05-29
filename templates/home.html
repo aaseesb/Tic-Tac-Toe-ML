@@ -28,28 +28,28 @@
                         value="{{ episodes }}">
                     <button type="submit" name="submit_type" value="params" class="button">Submit Parameters</button>
                 </form>
-
-                
             </div>
 
             <div class="column" style="width:350px;">
                 <!-- tictactoe game -->
                 <form method="POST">
-                    <div id="board-container">
+                    <div class="grid" id="board-container">
                         {% include 'board.html' %}
-                    </div>
                     
+                    <!-- line to show winner -->
                     {% if cells != None %}
                         <div class="winner-line" id="line"></div>
-                            <!-- run js function-->
+                        <!-- run js function-->
                         <script type="text/javascript">
                             var cells = {{ cells | tojson }};
                             drawWinLine(cells);
                         </script>
                     {% endif %}
+                    </div>
                     <input type="hidden" name="submit_type" value="move">
                 </form>
-                    
+                
+                <!-- option to display q-values -->
                 <div style="display: flex; justify-content: center; align-items: center; margin-top: -10px;">
                 <label for="show_qvalues" style="display: inline-flex; align-items: center; gap: 6px;">
                     <input type="checkbox" id="show_qvalues" name="qvalues" value="true"
@@ -58,7 +58,6 @@
                     <span>Show Q-values</span>
                 </label>
                 </div>
-
 
                 <!-- check for winner and output accordingly -->
                 {% if winner == 0 %}
