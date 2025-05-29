@@ -7,7 +7,8 @@
     <title>Q Learning Tic Tac Toe</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='checkbox.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='winningline.js') }}"></script>
 </head>
 
 <body>
@@ -47,14 +48,6 @@
                         </script>
                     {% endif %}
                     <input type="hidden" name="submit_type" value="move">
-                     {% if cells != None %}
-                        <div class="winner-line" id="line"></div>
-                            <!-- run js function-->
-                        <script type="text/javascript">
-                            var cells = {{ cells | tojson }};
-                            drawWinLine(cells);
-                        </script>
-                    {% endif %}
                 </form>
                     
                 <div style="display: flex; justify-content: center; align-items: center; margin-top: -10px;">

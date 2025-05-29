@@ -143,7 +143,7 @@ def update_qvalues():
 def get_board():
     global env, x_ai, o_ai, human
     if env is None:
-        return jsonify(html='<p>Game not started</p>')
+        return jsonify(html='<p>Game not started, Train AI first.</p>')
 
     qvalues = get_qvalues(x_ai, o_ai, env, human) if show_qvalues else []
 
