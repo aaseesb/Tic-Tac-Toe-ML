@@ -1,6 +1,5 @@
 function drawWinLine(cells) {
     line = document.getElementById('line');
-    console.log(cells)
     // horizontal
     if (JSON.stringify(cells) == JSON.stringify([3,4,5])) {} // empty bc it's default settings
     else if (JSON.stringify(cells) == JSON.stringify([0, 1, 2])) {
@@ -33,8 +32,4 @@ function drawWinLine(cells) {
         }
     }
     
-}
-
-function trainAiWarning() {
-    window.alert("AI not trained. Please train AI before playing.");
 }

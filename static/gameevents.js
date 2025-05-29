@@ -1,5 +1,9 @@
-function sendCheckboxState(checkbox) {
+function sendCheckboxState() {
+  // retrieve checkbox information
+  checkbox = document.getElementById('show_qvalues');
+
   fetch('/update_qvalues', {
+    // Run function
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -20,4 +24,14 @@ function sendCheckboxState(checkbox) {
     .catch(error => {
       console.error("Error:", error);
     });
+}
+
+// when reset button is clicked, check for q value box before resetting
+function resetGame() {
+  sendCheckboxState();
+  document.getElementById("resetForm").submit();
+}
+
+function trainAiWarning() {
+    window.alert("AI not trained. Please train AI before playing.");
 }

@@ -7,7 +7,7 @@
     <title>Q Learning Tic Tac Toe</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="{{ url_for('static', filename='checkbox.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='gameevents.js') }}" defer></script>
     <script src="{{ url_for('static', filename='winningline.js') }}"></script>
 </head>
 
@@ -19,12 +19,12 @@
             <!-- q learning training parameter inputs -->
             <div class="column" style="margin-top:40px;">
                 <form action="/" method="POST" id="ai-inputs">
-                    <input type="text" class="input-box" name="epsilon" placeholder="Greed" value="{{ epsilon }}">
-                    <input type="text" class="input-box" name="alpha" placeholder="Learning rate"
+                    <input type="text" class="input-box" name="epsilon" placeholder="Greed (.5)" value="{{ epsilon }}">
+                    <input type="text" class="input-box" name="alpha" placeholder="Learning rate (.1)"
                         value="{{ alpha }}">
-                    <input type="text" class="input-box" name="gamma" placeholder="Discount factor"
+                    <input type="text" class="input-box" name="gamma" placeholder="Discount factor (.9)"
                         value="{{ gamma }}">
-                    <input type="text" class="input-box" name="episodes" placeholder="Training Episodes"
+                    <input type="text" class="input-box" name="episodes" placeholder="Training Episodes (100k)"
                         value="{{ episodes }}">
                     <button type="submit" name="submit_type" value="params" class="button">Submit Parameters</button>
                 </form>
@@ -54,7 +54,7 @@
                 <label for="show_qvalues" style="display: inline-flex; align-items: center; gap: 6px;">
                     <input type="checkbox" id="show_qvalues" name="qvalues" value="true"
                         {% if qvalues_state %}checked{% endif %}
-                        onchange="sendCheckboxState(this)">
+                        onchange="sendCheckboxState()">
                     <span>Show Q-values</span>
                 </label>
                 </div>
@@ -71,8 +71,11 @@
                 {% endif %}
                 
                 <!-- reset/play again button -->
-                <form method="POST">
-                    <button type="submit" name="submit_type" value="reset" class="button">Reset Game</button>
+                <form method="POST" id="resetForm">
+                    <button type="submit" name="submit_type" value="reset" class="button"
+                        onclick="resetGame()">
+                        Reset Game
+                    </button>
                 </form>
 
                 <!-- display move -->

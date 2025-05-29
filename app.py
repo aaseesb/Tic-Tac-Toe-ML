@@ -51,7 +51,7 @@ def home():
 
             #print(p1.q_table)
             save_dict(p1.q_table, "xtable.pkl")
-            save_dict(p1.q_table, "otable.pkl")
+            save_dict(p2.q_table, "otable.pkl")
 
             x_ai = Player("X", "ai",epsilon=0, q_table=load_dict('xtable.pkl') )
             o_ai = Player("O", "ai", epsilon=0, q_table=load_dict('otable.pkl'))
