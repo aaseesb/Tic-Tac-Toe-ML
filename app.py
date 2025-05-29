@@ -110,6 +110,7 @@ def home():
             board_2d = [[' ', ' ', ' '] for i in range(3)]
 
     print(board_2d)
+    print(win_cells)
 
     return render_template('home.html',
                            move=move,

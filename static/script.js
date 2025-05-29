@@ -2,7 +2,10 @@ function drawWinLine(cells) {
     line = document.getElementById('line');
 
     // horizontal
-    if (JSON.stringify(cells) == JSON.stringify([3,4,5])) {}
+    if (JSON.stringify(cells) == JSON.stringify([3,4,5])) {
+      //idk why this was empty dog
+      line.style.top = -130 +'px'
+    }
     else if (JSON.stringify(cells) == JSON.stringify([0, 1, 2])) {
         line.style.top = 50 +'px';
     }
