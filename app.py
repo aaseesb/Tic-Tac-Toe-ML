@@ -32,7 +32,6 @@ def home():
         submit_type = request.form.get('submit_type')
 
         if submit_type == 'params':
-            
             p1 = p2 = x_ai = o_ai = env = None
             clear_dict(['xtable.pkl','otable.pkl'])    
             print('removed')

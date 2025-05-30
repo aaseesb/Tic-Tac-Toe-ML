@@ -7,7 +7,7 @@
     <title>Q Learning Tic Tac Toe</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="{{ url_for('static', filename='gameevents.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='events.js') }}" defer></script>
     <script src="{{ url_for('static', filename='winningline.js') }}"></script>
 </head>
 
@@ -19,13 +19,14 @@
             <!-- q learning training parameter inputs -->
             <div class="column" style="margin-top:40px;">
                 <form action="/" method="POST" id="ai-inputs">
-                    <input type="text" class="input-box" name="epsilon" placeholder="Greed (0->1)" value="{{ epsilon }}">
+                    <input type="text" class="input-box" name="epsilon" placeholder="Greed (0->1)" 
+                        value="{{ epsilon }}" required>
                     <input type="text" class="input-box" name="alpha" placeholder="Learning rate (0->1)"
-                        value="{{ alpha }}">
+                        value="{{ alpha }}" required>
                     <input type="text" class="input-box" name="gamma" placeholder="Discount factor (0->1)"
-                        value="{{ gamma }}">
+                        value="{{ gamma }}" required>
                     <input type="text" class="input-box" name="episodes" placeholder="Training Episodes (100k+)"
-                        value="{{ episodes }}">
+                        value="{{ episodes }}" required>
                     <button type="submit" name="submit_type" value="params" class="button">Submit Parameters</button>
                 </form>
             </div>
@@ -73,7 +74,7 @@
                 <!-- reset/play again button -->
                 <form method="POST" id="resetForm">
                     <button type="submit" name="submit_type" value="reset" class="button"
-                        onclick="resetGame()">
+                        onclick="sendCheckboxState()">
                         Reset Game
                     </button>
                 </form>
