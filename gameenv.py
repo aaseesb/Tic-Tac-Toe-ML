@@ -1,3 +1,8 @@
+from random import randint, random
+from numpy import argmax
+from pickle import load, dump
+from os import remove, path
+
 # GAME
 class TicTacToe:
     def __init__(self, players):
@@ -74,11 +79,11 @@ class Player:
             self.q_table[state] = [0 for x in range(len(validmoves))]
         
         #epsilon-greedy policy
-        if random.random() < self.epsilon:
-            move_index = random.randint(0,len(validmoves)-1)
+        if random() < self.epsilon:
+            move_index = randint(0,len(validmoves)-1)
         
         else:
-            move_index = numpy.argmax(self.q_table[state])
+            move_index = argmax(self.q_table[state])
         move = validmoves[move_index]
 
         if self.last_state is not None:
@@ -163,17 +168,17 @@ def get_qvalues(x_ai, o_ai, env, turn):
 
 def clear_dict(dictionary_filenames):
     for file in dictionary_filenames:
-        if os.path.exists(file):
-            os.remove(file)
+        if path.exists(file):
+            remove(file)
             print(file, 'removed')
 
 def save_dict(dictionary, filename):
     with open(filename, 'wb') as f:
-        pickle.dump(dictionary, f)
+        dump(dictionary, f)
 
 def load_dict(filename):
     with open(filename, 'rb') as f:
-        return pickle.load(f)
+        return load(f)
 
 """
 p1 = Player("X", "ai")

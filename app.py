@@ -1,9 +1,6 @@
 from flask import Flask, request, render_template, jsonify
 from gameenv import TicTacToe, Player, load_dict, training, save_dict, get_qvalues, clear_dict
-import random
-import numpy
-import pickle
-import os
+
 
 show_qvalues = False
 trained = False
