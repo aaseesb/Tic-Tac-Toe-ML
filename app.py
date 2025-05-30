@@ -33,10 +33,10 @@ def home():
 
         if submit_type == 'params':
             
-            if trained == True:
-                clear_dict(['xtable.pkl','otable.pkl'])    
-                print('removed')
-                trained = False
+            p1 = p2 = x_ai = o_ai = env = None
+            clear_dict(['xtable.pkl','otable.pkl'])    
+            print('removed')
+            trained = False
 
             epsilon = float(request.form.get('epsilon'))
             alpha = float(request.form.get('alpha'))

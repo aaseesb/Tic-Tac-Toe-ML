@@ -19,12 +19,12 @@
             <!-- q learning training parameter inputs -->
             <div class="column" style="margin-top:40px;">
                 <form action="/" method="POST" id="ai-inputs">
-                    <input type="text" class="input-box" name="epsilon" placeholder="Greed (.5)" value="{{ epsilon }}">
-                    <input type="text" class="input-box" name="alpha" placeholder="Learning rate (.1)"
+                    <input type="text" class="input-box" name="epsilon" placeholder="Greed (0->1)" value="{{ epsilon }}">
+                    <input type="text" class="input-box" name="alpha" placeholder="Learning rate (0->1)"
                         value="{{ alpha }}">
-                    <input type="text" class="input-box" name="gamma" placeholder="Discount factor (.9)"
+                    <input type="text" class="input-box" name="gamma" placeholder="Discount factor (0->1)"
                         value="{{ gamma }}">
-                    <input type="text" class="input-box" name="episodes" placeholder="Training Episodes (100k)"
+                    <input type="text" class="input-box" name="episodes" placeholder="Training Episodes (100k+)"
                         value="{{ episodes }}">
                     <button type="submit" name="submit_type" value="params" class="button">Submit Parameters</button>
                 </form>
