@@ -33,15 +33,3 @@ function drawWinLine(cells) {
     }
     
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('form');
-    const loader = document.querySelector('.loading-screen');
-    const text = document.querySelector('.params')
-
-    if (form && loader) {
-        form.addEventListener('submit', (e) => {
-            loader.style.display = 'block';
-        });
-    }
-});

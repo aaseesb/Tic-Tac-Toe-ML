@@ -169,20 +169,24 @@ p {
 
 /*loading screen*/
 .loading-screen {
+    position: absolute;
     z-index: 9999;
     display: none;
     margin-top: 100px;
+    margin-left: 115px;
 }
 
 /* Initially hide the parameters text */
 .params {
+    position: relative;
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+    transition: opacity 0.3s ease-in, visibility 0.3s ease-in;
 }
 
 /* When hiding the text */
 .params.hidden {
+    position: relative;
     opacity: 0;
     visibility: hidden;
 }

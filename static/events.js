@@ -1,4 +1,6 @@
-const aiInputForm = document.getElementById('ai-inputs');
+const form = document.getElementById('ai-inputs');
+const loader = document.querySelector('.loading-screen');
+const text = document.querySelector('.params')
 
 function sendCheckboxState() {
   checkbox = document.getElementById('show_qvalues');
@@ -29,7 +31,7 @@ function trainAiWarning() {
 }
 
 // check and function for ai input submission, needed to check if inputs are numbers
-aiInputForm.addEventListener('submit', submitAiInputs);
+form.addEventListener('submit', submitAiInputs);
 
 function submitAiInputs(event) {
   const inputs = document.querySelectorAll('#ai-inputs input');
@@ -73,7 +75,20 @@ window.addEventListener('beforeunload', () => {
 });
 
 window.addEventListener('load', () => {
+  // ensure checkbox state is retained on load
   if (!gameOver && document.getElementById('show_qvalues').checked) {
     sendCheckboxState();
   }
+  // hide text when loading screen appears
+  
+});
+
+// hide parameters and show loading screen every time parameters are submitted
+document.addEventListener('DOMContentLoaded', () => {
+    if (form && loader) {
+        form.addEventListener('submit', (e) => {
+            loader.style.display = 'block';
+            text.classList.add('hidden');
+        });
+    }
 });
