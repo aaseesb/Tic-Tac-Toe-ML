@@ -174,8 +174,9 @@ def get_qvalues(x_ai, o_ai, env, turn):
 
 def clear_dict(dictionary_filenames):
     for file in dictionary_filenames:
-        os.remove(file)
-        print(file, 'removed')
+        if os.path.exists(file):
+            os.remove(file)
+            print(file, 'removed')
 
 def save_dict(dictionary, filename):
     with open(filename, 'wb') as f:

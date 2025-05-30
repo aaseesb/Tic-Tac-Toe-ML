@@ -66,3 +66,10 @@ function submitAiInputs(event) {
     event.preventDefault();
   }
 }
+
+// disable buttons while page is loading
+window.addEventListener('beforeunload', () => {
+  document.querySelectorAll('button').forEach(btn => {
+    btn.disabled = true;
+  });
+});
