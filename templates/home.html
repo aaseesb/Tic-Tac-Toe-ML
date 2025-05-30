@@ -36,16 +36,16 @@
                 <form method="POST">
                     <div class="grid" id="board-container">
                         {% include 'board.html' %}
-                    
-                    <!-- line to show winner -->
-                    {% if cells != None %}
-                        <div class="winner-line" id="line"></div>
-                        <!-- run js function-->
-                        <script type="text/javascript">
-                            var cells = {{ cells | tojson }};
-                            drawWinLine(cells);
-                        </script>
-                    {% endif %}
+                        
+                        <!-- line to show winner -->
+                        {% if cells != None %}
+                            <div class="winner-line" id="line"></div>
+                            <!-- run js function-->
+                            <script type="text/javascript">
+                                var cells = {{ cells | tojson }};
+                                drawWinLine(cells);
+                            </script>
+                        {% endif %}
                     </div>
                     <input type="hidden" name="submit_type" value="move">
                 </form>

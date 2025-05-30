@@ -73,3 +73,9 @@ window.addEventListener('beforeunload', () => {
     btn.disabled = true;
   });
 });
+
+window.addEventListener('load', () => {
+  if (document.getElementById('show_qvalues').checked) {
+    setTimeout(sendCheckboxState, 200);
+  }
+});
