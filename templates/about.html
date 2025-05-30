@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About This Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='aboutpage.css') }}">
+  </head>
+  <body>
+    <!-- page content -->
+    <div class = "about-container">
+      <!-- title -->
+      <h1>About This Project</h1>
+
+      <!-- about the contributors -->
+      <h2>Contributors</h2>
+
+      <div class="card">
+        <!-- zawar -->
+        <div class="contributor">
+          <h4>Zawar Gondal</h4>
+          <a href="https://github.com/zawarg" target="_blank">GitHub</a>
+        </div>
+        <!-- aasees -->
+        <div class="contributor">
+          <h4>Aasees Badesha</h4>
+          <a href="https://github.com/aaseesb" target="_blank">GitHub</a>
+        </div>
+      </div>
+
+      <!-- about the project -->
+      <h2>Project Description</h2>
+      <p style="margin-bottom: 1em;">
+        This is a Python-based machine learning project that implements a reinforcement learning agent to play Tic-Tac-Toe using the Q-learning algorithm. The agent learns optimal moves through self-play and updates its Q-values based on the outcomes of games. The project allows users to play against the trained agent via a simple console interface.
+        </p>
+        <p>The core technologies used in this project include Python, Numpy, Flask, Html, CSS and Javascript. The Q-table is updated using the Bellman equation with a Value Iteration update, and the training loop is designed to balance exploration and exploitation using an epsilon-greedy strategy. This project serves as an educational tool to understand the basics of reinforcement learning and its application in turn-based games.
+      </p>
+
+
+      <h2>Thank You!</h2>
+
+      <!-- back button -->
+      <div class="back-container">
+        <a href="/" class="back-button">⬅</a>
+      </div>
+    </div>
+  </body>
+</html>

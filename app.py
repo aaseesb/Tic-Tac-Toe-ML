@@ -116,6 +116,9 @@ def home():
                            cells=win_cells,
                            qvalues_state = show_qvalues)
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 @app.route('/update_qvalues', methods=['POST'])
 def update_qvalues():
