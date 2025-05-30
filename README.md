@@ -1,6 +1,8 @@
 # 🤖 TicTacToe Q-Learning AI
 
-A clean and responsive web application that allows users to train an AI model to play TicTacToe, through RL using the Q-Learning Method.
+This is a Python-based machine learning project that implements a reinforcement learning agent to play Tic-Tac-Toe using the Q-learning algorithm. The agent learns optimal moves through self-play and updates its Q-values based on the outcomes of games. The project allows users to play against the trained agent via a simple console interface.
+
+The Q-table is updated using the Bellman equation with a Value Iteration update, and the training loop is designed to balance exploration and exploitation using an epsilon-greedy strategy. This project serves as an educational tool to understand the basics of reinforcement learning and its application in turn-based games.
 
 ## Documentation
 
