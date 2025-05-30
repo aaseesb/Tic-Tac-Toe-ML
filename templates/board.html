@@ -1,7 +1,6 @@
 {% for row in range(3) %}
   {% for col in range(3) %}
     {% set cell_value = board[row][col] %}
-    
     {% if epsilon == ''%}
       <!-- If parameters have not been submitted, display a warning on click-->
       <button name="cell" value="{{ row }}-{{ col }}" class="grid-cell"

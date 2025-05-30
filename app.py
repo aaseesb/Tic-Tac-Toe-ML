@@ -144,12 +144,14 @@ def get_board():
     global env, x_ai, o_ai, human
     if env is None:
         return jsonify(html='<p>Game not started, Train AI first.</p>')
+    
+    winner = env.check_win() if env else None
 
     qvalues = get_qvalues(x_ai, o_ai, env, human) if show_qvalues else []
 
     board_2d = combine2d(env.board, qvalues)
 
-    rendered_board = render_template('board.html', board=board_2d)
+    rendered_board = render_template('board.html', board=board_2d, winner=winner)
     return jsonify(html=rendered_board)
 
 def combine2d(board, qvalues):
