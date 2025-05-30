@@ -148,3 +148,41 @@ p {
     border-radius: 5px;
     border: .75px solid #2d0420;
 }
+/*about*/
+#about {
+    position: fixed;
+    bottom: 5px;
+    right: 10px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.2rem;
+}
+#about a {
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+#about a:hover {
+    text-decoration: underline;
+    color: #000;
+    cursor: pointer;
+}
+
+/*loading screen*/
+.loading-screen {
+    z-index: 9999;
+    display: none;
+    margin-top: 100px;
+}
+
+/* Initially hide the parameters text */
+.params {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+}
+
+/* When hiding the text */
+.params.hidden {
+    opacity: 0;
+    visibility: hidden;
+}

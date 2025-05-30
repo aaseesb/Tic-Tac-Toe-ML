@@ -36,24 +36,6 @@ body {
     text-align: center;
 }
 
-#about {
-    position: fixed;
-    bottom: 5px;
-    right: 10px;
-    font-family: 'Roboto Mono', monospace;
-    font-size: 1.2rem;
-}
-#about a {
-    color: #333;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-#about a:hover {
-    text-decoration: underline;
-    color: #000;
-    cursor: pointer;
-}
-
 .back-container {
     text-align: center;
 }
