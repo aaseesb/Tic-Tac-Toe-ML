@@ -4,6 +4,8 @@ This is a Python-based machine learning project that implements a reinforcement 
 
 The Q-table is updated using the Bellman equation with a Value Iteration update, and the training loop is designed to balance exploration and exploitation using an epsilon-greedy strategy. This project serves as an educational tool to understand the basics of reinforcement learning and its application in turn-based games.
 
+![Untitled-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/ad2a523b-0422-4182-af24-a6f188a832a5)
+
 ## Documentation
 
 1. **Clone the repository** `git clone https://github.com/aaseesb/Tic-Tac-Toe-ML`
