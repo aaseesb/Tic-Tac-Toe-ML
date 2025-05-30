@@ -17,7 +17,6 @@ class TicTacToe:
 
     def aigame(self):
         while True:
-            #self.print_board()
             move = self.players[0].step_ai(self)
             self.board[move] = "X"
             self.check_win()
@@ -113,9 +112,6 @@ class Player:
                 self.last_state = None
                 self.last_action = None
 
-
-# TRAINING
-
 def training(env, p1,p2, episodes):
     for i in range(episodes):
         env.aigame()
@@ -170,7 +166,6 @@ def clear_dict(dictionary_filenames):
     for file in dictionary_filenames:
         if path.exists(file):
             remove(file)
-            print(file, 'removed')
 
 def save_dict(dictionary, filename):
     with open(filename, 'wb') as f:
@@ -179,23 +174,3 @@ def save_dict(dictionary, filename):
 def load_dict(filename):
     with open(filename, 'rb') as f:
         return load(f)
-
-"""
-p1 = Player("X", "ai")
-p2 = Player("O", "ai")
-env = TicTacToe([p1,p2])
-
-training(env,p1,p2, 100000)
-
-save_dict(p1.q_table,'xtable.pkl')
-save_dict(p2.q_table,'otable.pkl')
-
-xtable = load_dict('xtable.pkl')
-otable = load_dict('otable.pkl')
-p1 = Player("X", "ai", q_table=xtable, epsilon=0)
-p2 = Player("O", "ai", q_table=otable, epsilon=0)
-env2 = TicTacToe([p1,p2])
-
-print(check(env2,p1,p2))
-
-"""

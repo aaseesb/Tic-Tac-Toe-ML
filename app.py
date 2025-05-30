@@ -26,16 +26,15 @@ def home():
         trained = False
     
     move = None
-    winner = None;
-    win_cells = None;
+    winner = None
+    win_cells = None
 
     if request.method == 'POST':
         submit_type = request.form.get('submit_type')
 
         if submit_type == 'params':
             p1 = p2 = x_ai = o_ai = env = None
-            clear_dict(['xtable.pkl','otable.pkl'])    
-            print('removed')
+            clear_dict(['xtable.pkl','otable.pkl'])
             trained = False
 
             epsilon = float(request.form.get('epsilon'))
@@ -49,21 +48,18 @@ def home():
             env = TicTacToe([p1, p2])
             training(env, p1,p2, episodes)
 
-            #print(p1.q_table)
             save_dict(p1.q_table, "xtable.pkl")
             save_dict(p2.q_table, "otable.pkl")
 
             x_ai = Player("X", epsilon=0, q_table=load_dict('xtable.pkl') )
             o_ai = Player("O", epsilon=0, q_table=load_dict('otable.pkl'))
 
-            #print(x_ai.q_table)
             trained = True
-            #print('AI Trained')
 
             
         elif submit_type == 'reset' and trained:
-            env.reset();
-            # switch icons each time game is reset
+            env.reset()
+
             human, ai = ("O", "X") if human == "X" else ("X", "O")
             if human == "O":
                 env.board[o_ai.step_ai(env)] = ai
@@ -73,20 +69,15 @@ def home():
 
         elif submit_type == 'move' and trained:            
             
-            # retrieve location of move
             move = request.form.get('cell')
-            #print("Form data:", request.form)
             if move:
                 row, col = map(int, move.split('-'))
                 idx = row * 3 + col
-                
-                #theres probably better way than checking available actions twice but fuck it
+
                 if env.available_actions(env.board) != []:
-                    # check if cell is empty before playing move
                     if env.board[idx] == ' ':
                         env.board[idx] = human
 
-                        # check if user has won before making ai play move
                         winner = env.check_win()
                         if winner == None:
                             if ai == "X":
@@ -94,13 +85,10 @@ def home():
                             else: 
                                 env.board[o_ai.step_ai(env)] = ai
                         
-                        # retrieve possibilities of ai playing move in each cell
                         qvalues = get_qvalues(x_ai,o_ai,env,human)
 
-                        #the html board is 3x3 while the board in the qtables is 1x9 so convert to 2d list
                         board_2d = combine2d(env.board, qvalues)
 
-                        # check for a winner and update variable accordingly
                         winner = env.check_win()
 
                         if winner == 0 or winner == 1 or winner == 2:
@@ -115,8 +103,7 @@ def home():
         except(UnboundLocalError, AttributeError):
             board_2d = [[' ', ' ', ' '] for i in range(3)]
 
-    #print(board_2d)
-    #print(win_cells)
+
 
     return render_template('home.html',
                            move=move,
@@ -135,7 +122,6 @@ def update_qvalues():
     global show_qvalues
     data = request.get_json()
     show_qvalues = data.get('qvalues', False)
-    #print("Q-values checkbox is now:", show_qvalues)
     return jsonify(success=True)
 
 @app.route('/get_board')
@@ -163,9 +149,7 @@ def combine2d(board, qvalues):
             for j in range(0, 3):
                 if board_2d[i][j] == ' ':
                     board_2d[i][j] = qvalues[0]
-                    #print(qvalues[0])
                     qvalues.remove(qvalues[0])
-                    #print(qvalues);
 
     return board_2d
 
