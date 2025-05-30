@@ -61,6 +61,10 @@ function submitAiInputs(event) {
   }
 }
 
+document.getElementById('resetForm').addEventListener('submit', (event) => {
+    sendCheckboxState();
+});
+
 // disable buttons while page is loading
 window.addEventListener('beforeunload', () => {
   document.querySelectorAll('button').forEach(btn => {
@@ -69,7 +73,7 @@ window.addEventListener('beforeunload', () => {
 });
 
 window.addEventListener('load', () => {
-  if (document.getElementById('show_qvalues').checked) {
-    setTimeout(sendCheckboxState, 200);
+  if (!gameOver && document.getElementById('show_qvalues').checked) {
+    sendCheckboxState();
   }
 });
