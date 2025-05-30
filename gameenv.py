@@ -1,18 +1,8 @@
-import random
-import numpy
-import pickle
-import os
-
 # GAME
 class TicTacToe:
     def __init__(self, players):
         self.players = players
         self.reset()
-    
-    def print_board(self):
-        print(f'{self.board[0]}| {self.board[1]} | {self.board[2]}')
-        print(f'{self.board[3]}| {self.board[4]} | {self.board[5]}')
-        print(f'{self.board[6]}| {self.board[7]} | {self.board[8]}')
     
     def reset(self):
         self.board = [" " for x in range(9)]
@@ -66,9 +56,8 @@ class TicTacToe:
 
 # PLAYER
 class Player:
-    def __init__(self, name, type, epsilon = 0.5, alpha = 0.1, gamma = 0.9, q_table = {}):
+    def __init__(self, name, epsilon = 0.5, alpha = 0.1, gamma = 0.9, q_table = {}):
         self.name =  name
-        self.type = type
         self.q_table = q_table
         self.epsilon = epsilon
         self.alpha = alpha

@@ -1,5 +1,9 @@
 from flask import Flask, request, render_template, jsonify
 from gameenv import TicTacToe, Player, load_dict, training, save_dict, get_qvalues, clear_dict
+import random
+import numpy
+import pickle
+import os
 
 show_qvalues = False
 trained = False
@@ -43,8 +47,8 @@ def home():
             episodes = int(request.form.get('episodes'))
 
             # AI training
-            p1 = Player("X", "ai", epsilon, alpha, gamma, q_table={})
-            p2 = Player("O", "ai", epsilon, alpha, gamma, q_table = {})
+            p1 = Player("X", epsilon, alpha, gamma, q_table={})
+            p2 = Player("O", epsilon, alpha, gamma, q_table = {})
             env = TicTacToe([p1, p2])
             training(env, p1,p2, episodes)
 
@@ -52,8 +56,8 @@ def home():
             save_dict(p1.q_table, "xtable.pkl")
             save_dict(p2.q_table, "otable.pkl")
 
-            x_ai = Player("X", "ai",epsilon=0, q_table=load_dict('xtable.pkl') )
-            o_ai = Player("O", "ai", epsilon=0, q_table=load_dict('otable.pkl'))
+            x_ai = Player("X", epsilon=0, q_table=load_dict('xtable.pkl') )
+            o_ai = Player("O", epsilon=0, q_table=load_dict('otable.pkl'))
 
             #print(x_ai.q_table)
             trained = True
@@ -104,7 +108,6 @@ def home():
 
                         if winner == 0 or winner == 1 or winner == 2:
                             win_cells = env.win_cells
-                            env.print_board()
                             env.board = [' ' for i in range(9)]
     
     try:
